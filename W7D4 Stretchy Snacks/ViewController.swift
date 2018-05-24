@@ -42,27 +42,43 @@ class ViewController: UIViewController {
     
     func setupStackView() {
         
+        let sel = #selector(snackTapped)
+        
+        // Tap Gestures
+        let tapGesture1 = UITapGestureRecognizer(target: self, action: sel)
+        let tapGesture2 = UITapGestureRecognizer(target: self, action: sel)
+        let tapGesture3 = UITapGestureRecognizer(target: self, action: sel)
+        let tapGesture4 = UITapGestureRecognizer(target: self, action: sel)
+        let tapGesture5 = UITapGestureRecognizer(target: self, action: sel)
+
+        
+        
+        // Snack UIImageViews
+        
         let snack1 = UIImageView(image: UIImage(named: "oreos"))
         snack1.heightAnchor.constraint(equalToConstant: 75).isActive = true
         snack1.widthAnchor.constraint(equalToConstant: 75).isActive = true
-        
+        snack1.addGestureRecognizer(tapGesture1)
         
         let snack2 = UIImageView(image: UIImage(named: "pizzaPockets"))
         snack2.heightAnchor.constraint(equalToConstant: 75).isActive = true
         snack2.widthAnchor.constraint(equalToConstant: 75).isActive = true
+        snack2.addGestureRecognizer(tapGesture2)
         
         let snack3 = UIImageView(image: UIImage(named: "popTarts"))
         snack3.heightAnchor.constraint(equalToConstant: 75).isActive = true
         snack3.widthAnchor.constraint(equalToConstant: 75).isActive = true
+        snack3.addGestureRecognizer(tapGesture3)
         
         let snack4 = UIImageView(image: UIImage(named: "popsicle"))
         snack4.heightAnchor.constraint(equalToConstant: 75).isActive = true
         snack4.widthAnchor.constraint(equalToConstant: 75).isActive = true
+        snack4.addGestureRecognizer(tapGesture4)
         
         let snack5 = UIImageView(image: UIImage(named: "ramen"))
         snack5.heightAnchor.constraint(equalToConstant: 75).isActive = true
         snack5.widthAnchor.constraint(equalToConstant: 75).isActive = true
-        
+        snack5.addGestureRecognizer(tapGesture5)
         
         stackView.axis  = .horizontal
         stackView.distribution  = .equalSpacing
@@ -81,8 +97,12 @@ class ViewController: UIViewController {
         
         //Constraints
         stackView.centerXAnchor.constraint(equalTo: topView.centerXAnchor).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: topView.bottomAnchor, constant: -10).isActive = true
        
+        
+    }
+    
+    @objc func snackTapped() {
         
     }
     
