@@ -8,29 +8,29 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    //MARK: Properties
     
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var plusButton: UIButton!
     @IBOutlet weak var topViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var snackTableView: UITableView!
     
     var stackView = UIStackView()
     var titleLabel = UILabel()
+    
+    var snackList = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         stackView.isHidden = true
         setupStackView()
         setupTitleLabel()
+        
     }
     
     func setupTitleLabel() {
-//        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
-//        label.center = CGPoint(x: 160, y: 285)
-//        label.textAlignment = .center
-//        label.text = "I'am a test label"
-//        self.view.addSubview(label)
-        
         titleLabel.heightAnchor.constraint(equalToConstant: 10)
         titleLabel.widthAnchor.constraint(equalToConstant: 30)
         titleLabel.centerXAnchor.constraint(equalTo: topView.centerXAnchor)
@@ -39,6 +39,9 @@ class ViewController: UIViewController {
         titleLabel.text = "Snacks"
         topView.addSubview(titleLabel)
     }
+    
+    
+    //MARK: StackView
     
     func setupStackView() {
         
@@ -59,26 +62,32 @@ class ViewController: UIViewController {
         snack1.heightAnchor.constraint(equalToConstant: 75).isActive = true
         snack1.widthAnchor.constraint(equalToConstant: 75).isActive = true
         snack1.addGestureRecognizer(tapGesture1)
+        snack1.isUserInteractionEnabled = true
         
         let snack2 = UIImageView(image: UIImage(named: "pizzaPockets"))
         snack2.heightAnchor.constraint(equalToConstant: 75).isActive = true
         snack2.widthAnchor.constraint(equalToConstant: 75).isActive = true
         snack2.addGestureRecognizer(tapGesture2)
+        snack2.isUserInteractionEnabled = true
         
         let snack3 = UIImageView(image: UIImage(named: "popTarts"))
         snack3.heightAnchor.constraint(equalToConstant: 75).isActive = true
         snack3.widthAnchor.constraint(equalToConstant: 75).isActive = true
         snack3.addGestureRecognizer(tapGesture3)
+        snack3.isUserInteractionEnabled = true
         
         let snack4 = UIImageView(image: UIImage(named: "popsicle"))
         snack4.heightAnchor.constraint(equalToConstant: 75).isActive = true
         snack4.widthAnchor.constraint(equalToConstant: 75).isActive = true
         snack4.addGestureRecognizer(tapGesture4)
+        snack4.isUserInteractionEnabled = true
         
         let snack5 = UIImageView(image: UIImage(named: "ramen"))
         snack5.heightAnchor.constraint(equalToConstant: 75).isActive = true
         snack5.widthAnchor.constraint(equalToConstant: 75).isActive = true
         snack5.addGestureRecognizer(tapGesture5)
+        snack5.isUserInteractionEnabled = true
+        
         
         stackView.axis  = .horizontal
         stackView.distribution  = .equalSpacing
@@ -102,10 +111,29 @@ class ViewController: UIViewController {
         
     }
     
-    @objc func snackTapped() {
-        
+    @objc func snackTapped(sender: UITapGestureRecognizer) {
+        guard let snackView = sender.view as? UIImageView else {
+            return
+        }
+
+        switch snackView.image {
+        case UIImage(named: "oreos"):
+            snackList.append("Oreos!")
+        case UIImage(named: "pizzaPockets"):
+            snackList.append("Pizza Pockets!")
+        case UIImage(named: "popTarts"):
+            snackList.append("Pop Tarts!")
+        case UIImage(named: "popsicle"):
+            snackList.append("Popsicle!")
+        case UIImage(named: "ramen"):
+            snackList.append("Ramen!")
+        default:
+            print("snackTap error")
+        }
+        snackTableView.reloadData()
     }
     
+    //MARK: Actions
     @IBAction func plusButtonPressed(_ sender: UIButton) {
         var transformHeight: CGFloat = 200.0
         var transformAngle: CGFloat = 0.25
@@ -132,5 +160,22 @@ class ViewController: UIViewController {
         
     }
     
+    //MARK: UITableView Delegate
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return snackList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+       
+        
+        // Fetches the appropriate meal for the data source layout.
+        let snack = snackList[indexPath.row]
+        cell.textLabel?.text = snack
+        return cell
+    }
+    
 }
-
